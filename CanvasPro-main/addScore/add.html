@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add your score</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Add your score</h1>
+      <form action="add.php" method="post">
+        <fieldset>
+          <legend>Your data</legend>
+          <label for="user_name">
+            Your username:
+            <input
+              type="text"
+              id="user_name"
+              name="user_name"
+              placeholder="kubixon02"
+            />
+          </label>
+          <label for="user_score">
+            Your score:
+            <span id="scoreSpan"></span>
+          </label>
+        </fieldset>
+        <input type="submit" value="Add to the MySql Database">
+      </form>
+    </div>
+    <script src="score.js"></script>
+  </body>
+</html>

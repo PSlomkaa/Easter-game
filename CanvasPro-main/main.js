@@ -89,6 +89,7 @@ window.addEventListener("load", function () {
 
     gameOver() {
       this.isGameOver = true;
+      addLink();
       // You can add more game over logic here
       showEndScreen();
     }
@@ -177,5 +178,12 @@ window.addEventListener("load", function () {
       canvas.width / 2 - 70,
       canvas.height / 2
     );
+  }
+
+  function addLink() {
+    let scoreLinkSpan = document.getElementById("score");
+    scoreLinkSpan.innerHTML = `Your score: ${game.score}. <br> <a href="addScore/add.html">Click to add score to the Database</a>`;
+    console.log(game.score);
+    localStorage.setItem("score", game.score);
   }
 });
