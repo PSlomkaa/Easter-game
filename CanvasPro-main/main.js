@@ -16,6 +16,7 @@ window.addEventListener('load', function () {
             this.eggs = [];
             this.bombs = [];
             this.score = 0;
+            this.lives = 3; // Added lives attribute
             this.isGameOver = false;
         }
 
@@ -70,7 +71,13 @@ window.addEventListener('load', function () {
                     bomb.y + 45 > this.player.y
                 ) {
                     // Collision with bomb
-                    this.gameOver();
+                    this.lives--;
+                    if (this.lives <= 0) {
+                        this.gameOver();
+                    } else {
+                        // Remove bomb after collision
+                        this.bombs.splice(index, 1);
+                    }
                 }
             });
         }
@@ -98,10 +105,13 @@ window.addEventListener('load', function () {
 
             this.player.draw(context);
 
-            // Draw score and lives
+            // Draw score, lives, and game over screen
             this.drawScore();
+            this.drawLives();
+            if (this.isGameOver) {
+                showEndScreen();
+            }
         }
-
 
         drawEgg(x, y, color) {
             const radiusX = 32;
@@ -126,6 +136,12 @@ window.addEventListener('load', function () {
             ctx.font = "20px Arial";
             ctx.fillStyle = "#000";
             ctx.fillText("Score: " + this.score, 10, 30);
+        }
+
+        drawLives() {
+            ctx.font = "20px Arial";
+            ctx.fillStyle = "#000";
+            ctx.fillText("Lives: " + this.lives, this.width - 100, 30);
         }
     }
 
