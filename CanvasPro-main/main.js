@@ -82,7 +82,13 @@ window.addEventListener('load', function () {
         }
 
         draw(context) {
-            this.player.draw(context);
+            // Draw background (sky)
+            ctx.fillStyle = '#87CEEB'; // Sky blue color
+            ctx.fillRect(0, 0, this.width, this.height);
+
+            // Draw ground
+            ctx.fillStyle = 'green'; // Saddle brown color
+            ctx.fillRect(0, this.height - 30, this.width, 30);
 
             // Draw eggs
             this.eggs.forEach((egg) => this.drawEgg(egg.x, egg.y, egg.color));
@@ -90,9 +96,12 @@ window.addEventListener('load', function () {
             // Draw bombs
             this.bombs.forEach((bomb) => this.drawBomb(bomb.x, bomb.y));
 
-            // Draw score
+            this.player.draw(context);
+
+            // Draw score and lives
             this.drawScore();
         }
+
 
         drawEgg(x, y, color) {
             const radiusX = 32;
