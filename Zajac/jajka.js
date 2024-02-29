@@ -1,6 +1,5 @@
 const canvas = document.getElementById('eggCanvas');
 const ctx = canvas.getContext('2d');
-        
 let eggY = 50;
 let bombY = 75;
         
