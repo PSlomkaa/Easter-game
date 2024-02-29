@@ -15,14 +15,18 @@ window.addEventListener('load', function () {
             this.input = new InputHandler(this);
             this.eggs = [];
             this.bombs = [];
+            this.score = 0;
+            this.isGameOver = false;
         }
 
         update() {
+            if (this.isGameOver) return;
+
             this.player.update(this.input.keys);
 
             // Update egg and bomb positions
-            this.eggs.forEach((egg) => egg.y += 2);
-            this.bombs.forEach((bomb) => bomb.y += 2);
+            this.eggs.forEach((egg, index) => egg.y += 2);
+            this.bombs.forEach((bomb, index) => bomb.y += 2);
 
             // Remove off-screen eggs and bombs
             this.eggs = this.eggs.filter((egg) => egg.y < this.height);
@@ -53,7 +57,7 @@ window.addEventListener('load', function () {
                 ) {
                     // Collision with egg
                     this.eggs.splice(index, 1);
-                    // Handle collision logic (e.g., increase score)
+                    this.score++;
                 }
             });
 
@@ -66,10 +70,15 @@ window.addEventListener('load', function () {
                     bomb.y + 45 > this.player.y
                 ) {
                     // Collision with bomb
-                    this.bombs.splice(index, 1);
-                    // Handle collision logic (e.g., decrease health)
+                    this.gameOver();
                 }
             });
+        }
+
+        gameOver() {
+            this.isGameOver = true;
+            // You can add more game over logic here
+            showEndScreen();
         }
 
         draw(context) {
@@ -80,6 +89,9 @@ window.addEventListener('load', function () {
 
             // Draw bombs
             this.bombs.forEach((bomb) => this.drawBomb(bomb.x, bomb.y));
+
+            // Draw score
+            this.drawScore();
         }
 
         drawEgg(x, y, color) {
@@ -100,6 +112,12 @@ window.addEventListener('load', function () {
             ctx.fill();
             ctx.closePath();
         }
+
+        drawScore() {
+            ctx.font = "20px Arial";
+            ctx.fillStyle = "#000";
+            ctx.fillText("Score: " + this.score, 10, 30);
+        }
     }
 
     const game = new Game(canvas.width, canvas.height);
@@ -116,5 +134,15 @@ window.addEventListener('load', function () {
     function getRandomColor() {
         const colors = ['#f5bda1', '#a1cdf5', '#a1f5b4']; // Add more colors as needed
         return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function showEndScreen() {
+        ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.font = "30px Arial";
+        ctx.fillStyle = "#000";
+        ctx.fillText("Game Over", canvas.width / 2 - 100, canvas.height / 2 - 50);
+        ctx.fillText("Score: " + game.score, canvas.width / 2 - 70, canvas.height / 2);
     }
 });
