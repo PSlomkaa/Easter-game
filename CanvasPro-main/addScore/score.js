@@ -4,8 +4,6 @@ let user_score = localStorage.getItem("score");
 
 scoreSpan.innerText = user_score;
 
-// Assuming user_score is already defined somewhere in your code
-
 function setCookie(name, value, minutesToExpire) {
     var d = new Date();
     d.setTime(d.getTime() + (minutesToExpire * 60 * 1000));
