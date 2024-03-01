@@ -38,7 +38,7 @@ window.addEventListener("load", function () {
       this.checkCollisions();
 
       // Randomly spawn eggs and bombs
-      if (Math.random() < 0.04) {
+      if (Math.random() < 0.02) {
         const eggColor = getRandomColor();
         this.eggs.push({
           x: Math.random() * this.width,
