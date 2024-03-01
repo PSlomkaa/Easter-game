@@ -56,7 +56,7 @@ if(isset($user_score) && strlen($user_name) < 40){
             echo "</tr>";
         }
         mysqli_free_result($result);
-        mysqli_close();
+        mysqli_close($conn);
         ?>
     </table>
     <a href="../index.html">Play again</a>
