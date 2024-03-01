@@ -55,6 +55,8 @@ if(isset($user_score) && strlen($user_name) < 40){
             echo "<td>" . $table["user_score"] . "</td>";
             echo "</tr>";
         }
+        mysqli_free_result($result);
+        mysqli_close();
         ?>
     </table>
     <a href="../index.html">Play again</a>
