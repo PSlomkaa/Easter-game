@@ -32,23 +32,27 @@ window.addEventListener("load", function () {
       this.bombs.forEach((bomb, index) => (bomb.y += this.gameSpeed));
 
       // Remove off-screen eggs and bombs
-      this.eggs = this.eggs.filter((egg) => egg.y < this.height);
-      this.bombs = this.bombs.filter((bomb) => bomb.y < this.height);
+      this.eggs = this.eggs.filter((egg) => egg.y < this.height + 45);
+      this.bombs = this.bombs.filter((bomb) => bomb.y < this.height +45);
 
       // Check for collisions
       this.checkCollisions();
 
       // Randomly spawn eggs and bombs
-      if (Math.random() < 0.05) {
+      if (Math.random() < 0.03) {
         const eggColor = getRandomColor();
         const x = Math.random() * this.width
         let collide = 0
         this.eggs.forEach((egg, index) => {
-          if(egg.x < x + 50 && egg.x + 50 > x && egg.y <100 ){
+          if(egg.x < x + 64 && egg.x + 64 > x && egg.y <100 ){
             collide++
-        
           }
         })
+        this.bombs.forEach( (bomb, index) => {
+          if(bomb.x < x + 78 && bomb.x + 78 > x && bomb.y < 100 ){
+            collide++
+          }
+        } )
         if(!collide){
           this.eggs.push({
           x: x,
@@ -56,11 +60,26 @@ window.addEventListener("load", function () {
           color: eggColor,
           })
         }
-        collide = 0
+        collide = 0;
       }
 
-      if (Math.random() < 0.005) {
-        this.bombs.push({ x: Math.random() * this.width, y: 0 });
+      if (Math.random() < 0.008) {
+        const x = Math.random() * this.width
+        let collide = 0
+        this.eggs.forEach((egg, index) => {
+          if(egg.x < x + 78 && egg.x + 78 > x && egg.y <100 ){
+            collide++
+          }
+        })
+        this.bombs.forEach( (bomb, index) => {
+          if(bomb.x < x + 91 && bomb.x + 91 > x && bomb.y < 100 ){
+            collide++
+          }
+        } )
+        if(!collide){
+          this.bombs.push({ x: x, y: 0 });
+        }
+        collide =0;
       }
     }
 
@@ -85,9 +104,9 @@ window.addEventListener("load", function () {
       this.bombs.forEach((bomb, index) => {
         if (
           bomb.x < this.player.x + this.player.width &&
-          bomb.x + 45 > this.player.x &&
+          bomb.x + 20 > this.player.x &&
           bomb.y < this.player.y + this.player.height &&
-          bomb.y + 45 > this.player.y
+          bomb.y + 20 > this.player.y
         ) {
           // Collision with bomb
           this.lives--;
