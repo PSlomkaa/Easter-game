@@ -1,0 +1,118 @@
+body *{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}   
+
+body {
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    height: 75vh;
+    width: 80%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 5fr;
+}
+
+.header-add-score {
+ background: #494C8C;
+ border-radius: 15px;
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ place-content: center;
+ box-shadow: 10px 10px #733F6A;
+}
+
+.header1 {
+    text-align: center;
+    color: #F2B3DC;
+    font-size: xx-large;
+}
+.header2 {
+    margin-bottom: .7rem;
+    text-align: center;
+    color: #F2B3DC;
+    font-size: x-large;
+}
+.form-section {
+    display: flex;
+    justify-content: center;
+    padding: 3rem;
+}
+.form1 {
+    box-shadow: 10px 10px #733F6A, 0 0  100px #494C8C inset;
+    width: 60%;
+    border-radius: 15px;
+    padding: 2rem;
+    background: #8373BF;
+}
+.label, span {
+    text-align: left;
+    color: #F2B3DC;
+    font-size: 300%;
+}
+span {
+    font-size: 300%;
+    text-shadow: 4px 4px #733F6A;
+}
+.legend {
+    font-size: 130%;
+}
+.fieldset {
+    height: 80%;
+    padding: .7rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border-radius: 15px;
+    border: 4px solid #733F6A;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+}
+.form-input {
+    height: 2.5rem;
+    width : 30%;
+    border-radius: 5px;
+    padding: .3rem;
+    box-shadow: 6px 6px #733F6A;
+    transition-duration: 300ms;
+}
+.form-input:focus {
+    transition-duration: 300ms;
+    width : 60%;
+}
+.right {
+    display: flex;
+    justify-content: flex-end;
+}
+.submit {
+    margin: 1rem;
+  background-color: #494C8C;
+  border-radius: 100px;
+  box-shadow: #494C8C 0 -25px 18px -14px inset, #494C8C 0 1px 2px,#733F6A  6px 6px;
+  color: #F2B3DC;
+  cursor: pointer;
+  display: inline-block;
+  font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+  padding: 7px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 250ms;
+  border: 0;
+  font-size: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.submit:hover {
+  box-shadow: #494C8C 0 -25px 18px -14px inset, #494C8C 0 1px 2px,#733F6A  6px 6px, #F2B3DC 0px -2px 2px inset;
+  transform: scale(1.05) rotate(-1deg);
+}
