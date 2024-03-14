@@ -19,6 +19,7 @@ window.addEventListener("load", function () {
       this.lives = 3; // Added lives attribute
       this.isGameOver = false;
       this.backgroundImage = document.getElementById("bg");
+      this.gameSpeed = 2
     }
 
     update() {
@@ -27,8 +28,8 @@ window.addEventListener("load", function () {
       this.player.update(this.input.keys);
 
       // Update egg and bomb positions
-      this.eggs.forEach((egg, index) => (egg.y += 2));
-      this.bombs.forEach((bomb, index) => (bomb.y += 2));
+      this.eggs.forEach((egg, index) => (egg.y += this.gameSpeed));
+      this.bombs.forEach((bomb, index) => (bomb.y += this.gameSpeed));
 
       // Remove off-screen eggs and bombs
       this.eggs = this.eggs.filter((egg) => egg.y < this.height);
@@ -38,13 +39,24 @@ window.addEventListener("load", function () {
       this.checkCollisions();
 
       // Randomly spawn eggs and bombs
-      if (Math.random() < 0.02) {
+      if (Math.random() < 0.05) {
         const eggColor = getRandomColor();
-        this.eggs.push({
-          x: Math.random() * this.width,
+        const x = Math.random() * this.width
+        let collide = 0
+        this.eggs.forEach((egg, index) => {
+          if(egg.x < x + 50 && egg.x + 50 > x && egg.y <100 ){
+            collide++
+        
+          }
+        })
+        if(!collide){
+          this.eggs.push({
+          x: x,
           y: 0,
           color: eggColor,
-        });
+          })
+        }
+        collide = 0
       }
 
       if (Math.random() < 0.005) {
@@ -64,6 +76,8 @@ window.addEventListener("load", function () {
           // Collision with egg
           this.eggs.splice(index, 1);
           this.score++;
+          this.gameSpeed+= 0.01 *this.gameSpeed
+          this.player.maxSpeed += 0.1
         }
       });
 
