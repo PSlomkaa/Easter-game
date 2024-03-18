@@ -20,6 +20,10 @@ window.addEventListener("load", function () {
       this.isGameOver = false;
       this.backgroundImage = document.getElementById("bg");
       this.gameSpeed = 2
+      this.eggImage1 = document.getElementById("jajko1");
+      this.eggImage2 = document.getElementById("jajko2");
+      this.eggImage3 = document.getElementById("jajko3");
+      this.bombImage = document.getElementById("bomba");
     }
     update() {
       if (this.isGameOver) return;
@@ -34,7 +38,7 @@ window.addEventListener("load", function () {
       this.checkCollisions();
 
       if (Math.random() < 0.03) {
-        const eggColor = getRandomColor();
+        const eggNumber = getRandomNumber();
         const x = Math.random() * this.width
         let collide = 0
         this.eggs.forEach((egg, index) => {
@@ -52,7 +56,7 @@ window.addEventListener("load", function () {
           this.eggs.push({
           x: x,
           y: 0,
-          color: eggColor,
+          color: eggNumber,
           })
         }
         collide = 0
@@ -83,7 +87,7 @@ window.addEventListener("load", function () {
           egg.x < this.player.x + this.player.width &&
           egg.x + 32 > this.player.x &&
           egg.y < this.player.y + this.player.height &&
-          egg.y + 45 > this.player.y
+          egg.y + 55 > this.player.y
         ) {
           // Collision with egg
           this.eggs.splice(index, 1);
@@ -95,10 +99,10 @@ window.addEventListener("load", function () {
 
       this.bombs.forEach((bomb, index) => {
  if (
-   bomb.x < this.player.x + this.player.width &&
-   bomb.x + 20 > this.player.x &&
+   bomb.x + 10< this.player.x + this.player.width &&
+   bomb.x > this.player.x &&
    bomb.y < this.player.y + this.player.height &&
-   bomb.y + 20 > this.player.y
+   bomb.y + 20> this.player.y
  ) {
    this.lives--;
    if (this.lives <= 0) {
@@ -132,22 +136,35 @@ window.addEventListener("load", function () {
     }
 
     drawEgg(x, y, color) {
-      const radiusX = 32;
-      const radiusY = 45;
-
-      ctx.beginPath();
-      ctx.ellipse(x, y, radiusX, radiusY, 0, 0, 2 * Math.PI);
-      ctx.fillStyle = color;
-      ctx.fill();
-      ctx.closePath();
+      const width = 64;
+      const height = 90;
+      switch(color){
+        case 1:
+          ctx.drawImage(this.eggImage1,x,y,width,height)
+          break
+        case 2:
+          ctx.drawImage(this.eggImage2,x,y,width,height)
+          break
+        case 3:
+          ctx.drawImage(this.eggImage3,x,y,width,height)
+          break
+      }
+      // ctx.beginPath();
+      // ctx.ellipse(x, y, radiusX, radiusY, 0, 0, 2 * Math.PI);
+      // ctx.fillStyle = color;
+      // ctx.fill();
+      // ctx.closePath();
     }
 
     drawBomb(x, y) {
-      ctx.beginPath();
-      ctx.arc(x, y, 45, 0, Math.PI * 2);
-      ctx.fillStyle = "#000";
-      ctx.fill();
-      ctx.closePath();
+      const r = 100
+      
+      ctx.drawImage(this.bombImage,x-50,y-50,r,r)
+      // ctx.beginPath();
+      // ctx.arc(x, y, 45, 0, Math.PI * 2);
+      // ctx.fillStyle = "#000";
+      // ctx.fill();
+      // ctx.closePath();
     }
 
     drawScore() {
@@ -178,9 +195,9 @@ window.addEventListener("load", function () {
 
   animate();
 
-  function getRandomColor() {
-    const colors = ["#f5bda1", "#a1cdf5", "#a1f5b4"];
-    return colors[Math.floor(Math.random() * colors.length)];
+  function getRandomNumber() {
+    const numbers = [1, 2, 3];
+    return numbers[Math.floor(Math.random() * numbers.length)];
   }
 
   function showEndScreen() {

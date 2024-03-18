@@ -1,11 +1,11 @@
 export class Player {
     constructor(game) {
         this.game = game;
-        this.width = 100;
-        this.height = 91.3;
+        this.width = 120;
+        this.height = 120;
         this.x = 0;
         this.x = (this.game.width-this.width)/2;
-        this.y = this.game.height - this.height;
+        this.y = this.game.height - this.height +20;
         this.image = document.getElementById('player');
         this.speed = 0;
         this.maxSpeed = 15;
@@ -36,7 +36,7 @@ export class Player {
         if (this.x < 0) this.x = 0;
         if (this.x > this.game.width - this.width) this.x = this.game.width - this.width
         if (this.y < 0) this.y = 0;
-        if (this.y > this.game.height - this.height) this.y = this.game.height - this.height
+        if (this.y > this.game.height - this.height) this.y = this.game.height - this.height +20    
     }
     draw(context) {
         context.drawImage(this.image, this.x, this.y, this.width, this.height)
