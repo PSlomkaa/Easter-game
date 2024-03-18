@@ -1,31 +1,33 @@
 <?php
-#database connection
+// Połączenie z bazą danych
 $conn = mysqli_connect("localhost", "player", "password123", "easter_game");
 
+// Sprawdzenie połączenia
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
-  }
-  echo "bluetooth device has connected successfully<br>";
+}
+echo "Bluetooth device has connected successfully<br>";
 
-$user_name = $_POST["user_name"];
+// Pobranie danych z formularza i ciasteczka
+$user_name = mysqli_real_escape_string($conn, $_POST["user_name"]);
 $user_score = $_COOKIE["user_score"];
 
+// Zapytanie SQL do dodania nowego rekordu
+$sql = "INSERT INTO score (user_name, user_score) VALUES ('$user_name', '$user_score')";
 
-$sql = "INSERT INTO score VALUES (null, '" . mysqli_real_escape_string($conn, $user_name) . "', '" . $user_score ."');";
-echo $sql;
-
+// Wykonanie zapytania, sprawdzenie poprawności danych
 if(isset($user_score) && strlen($user_name) < 40){
     if (mysqli_query($conn, $sql)) {
-    echo "<br>New record created successfully";
-  } else {
-    echo "<br>Error: " . $sql . "<br>" . mysqli_error($conn);
-  }
-}else {
+        echo "<br>New record created successfully";
+    } else {
+        echo "<br>Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
+} else {
     echo "<br>The score or your name is invalid";
 }
 
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,12 +44,16 @@ if(isset($user_score) && strlen($user_name) < 40){
             <th>Score</th>
         </tr>
         <?php
-        $sql = "SELECT * FROM score WHERE 1 ORDER BY user_score DESC";
+        // Zapytanie SQL do pobrania danych z tabeli
+        $sql = "SELECT * FROM score ORDER BY user_score DESC";
 
+        // Wykonanie zapytania
         $result = mysqli_query($conn, $sql);
 
+        // Przetworzenie wyników zapytania na tablicę asocjacyjną
         $res_table = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
+        // Wyświetlenie danych w tabeli
         foreach ($res_table as $table) {
             echo "<tr>";
             echo "<td>" . $table["id"] . "</td>";
@@ -55,10 +61,11 @@ if(isset($user_score) && strlen($user_name) < 40){
             echo "<td>" . $table["user_score"] . "</td>";
             echo "</tr>";
         }
+        // Zwolnienie zasobów i zamknięcie połączenia
         mysqli_free_result($result);
         mysqli_close($conn);
         ?>
     </table>
-    <a href="../index.html">Play again</a>
+    <a href="/index.html">Play again</a>
 </body>
 </html>

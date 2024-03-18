@@ -3,10 +3,12 @@ export class Player {
         this.game = game;
         this.width = 100;
         this.height = 91.3;
+        this.x = 0;
         this.x = (this.game.width-this.width)/2;
         this.y = this.game.height - this.height;
         this.image = document.getElementById('player');
         this.speed = 0;
+        this.maxSpeed = 15;
         this.jumpForce = 0;
         this.maxJumpForce = 50;
         this.maxSpeed = 10;
@@ -14,6 +16,10 @@ export class Player {
         this.gravityForce = 10;
     }
     update(input) {
+        this.x += this.speed;
+        if (input.includes('ArrowRight')) this.speed = this.maxSpeed //this.x++;
+        else if (input.includes('ArrowLeft')) this.speed = -this.maxSpeed //this.x--;
+        else this.speed = 0;
         if(this.jumpForce>0){
 
             this.jumpForce -= this.gravityForce
@@ -26,7 +32,7 @@ export class Player {
         if (input.includes('ArrowRight')) this.speed += this.maxSpeed //this.x++;
         if (input.includes("space")&&this.y >= this.game.height - this.height) this.jumpForce = this.maxJumpForce; console.log(this.jumpForce); 
         if (input.includes('ArrowLeft')) this.speed += -this.maxSpeed //this.x--;
-        
+
         if (this.x < 0) this.x = 0;
         if (this.x > this.game.width - this.width) this.x = this.game.width - this.width
         if (this.y < 0) this.y = 0;

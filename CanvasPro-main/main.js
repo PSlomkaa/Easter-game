@@ -21,24 +21,18 @@ window.addEventListener("load", function () {
       this.backgroundImage = document.getElementById("bg");
       this.gameSpeed = 2
     }
-
     update() {
       if (this.isGameOver) return;
-
       this.player.update(this.input.keys);
-
-      // Update egg and bomb positions
+      
       this.eggs.forEach((egg, index) => (egg.y += this.gameSpeed));
       this.bombs.forEach((bomb, index) => (bomb.y += this.gameSpeed));
 
-      // Remove off-screen eggs and bombs
       this.eggs = this.eggs.filter((egg) => egg.y < this.height + 45);
-      this.bombs = this.bombs.filter((bomb) => bomb.y < this.height +45);
+      this.bombs = this.bombs.filter((bomb) => bomb.y < this.height + 45);
 
-      // Check for collisions
       this.checkCollisions();
 
-      // Randomly spawn eggs and bombs
       if (Math.random() < 0.03) {
         const eggColor = getRandomColor();
         const x = Math.random() * this.width
@@ -46,6 +40,7 @@ window.addEventListener("load", function () {
         this.eggs.forEach((egg, index) => {
           if(egg.x < x + 64 && egg.x + 64 > x && egg.y <100 ){
             collide++
+
           }
         })
         this.bombs.forEach( (bomb, index) => {
@@ -60,7 +55,7 @@ window.addEventListener("load", function () {
           color: eggColor,
           })
         }
-        collide = 0;
+        collide = 0
       }
 
       if (Math.random() < 0.008) {
@@ -79,10 +74,8 @@ window.addEventListener("load", function () {
         if(!collide){
           this.bombs.push({ x: x, y: 0 });
         }
-        collide =0;
-      }
-    }
-
+        collide=0;
+    }}
     checkCollisions() {
       // Check collision with eggs
       this.eggs.forEach((egg, index) => {
@@ -100,50 +93,41 @@ window.addEventListener("load", function () {
         }
       });
 
-      // Check collision with bombs
       this.bombs.forEach((bomb, index) => {
-        if (
-          bomb.x < this.player.x + this.player.width &&
-          bomb.x + 20 > this.player.x &&
-          bomb.y < this.player.y + this.player.height &&
-          bomb.y + 20 > this.player.y
-        ) {
-          // Collision with bomb
-          this.lives--;
-          if (this.lives <= 0) {
-            this.gameOver();
-          } else {
-            // Remove bomb after collision
-            this.bombs.splice(index, 1);
-          }
-        }
+ if (
+   bomb.x < this.player.x + this.player.width &&
+   bomb.x + 20 > this.player.x &&
+   bomb.y < this.player.y + this.player.height &&
+   bomb.y + 20 > this.player.y
+ ) {
+   this.lives--;
+   if (this.lives <= 0) {
+     this.gameOver();
+   } else {
+     this.bombs.splice(index, 1);
+   }
+ }
       });
     }
 
     gameOver() {
       this.isGameOver = true;
-      addLink();
-      // You can add more game over logic here
       showEndScreen();
     }
 
     draw(context) {
-      //Draw background
       this.drawBackground();
 
-      // Draw eggs
       this.eggs.forEach((egg) => this.drawEgg(egg.x, egg.y, egg.color));
 
-      // Draw bombs
       this.bombs.forEach((bomb) => this.drawBomb(bomb.x, bomb.y));
 
       this.player.draw(context);
 
-      // Draw score, lives, and game over screen
       this.drawScore();
       this.drawLives();
       if (this.isGameOver) {
-        showEndScreen();
+ showEndScreen();
       }
     }
 
@@ -195,7 +179,7 @@ window.addEventListener("load", function () {
   animate();
 
   function getRandomColor() {
-    const colors = ["#f5bda1", "#a1cdf5", "#a1f5b4"]; // Add more colors as needed
+    const colors = ["#f5bda1", "#a1cdf5", "#a1f5b4"];
     return colors[Math.floor(Math.random() * colors.length)];
   }
 
@@ -205,18 +189,57 @@ window.addEventListener("load", function () {
 
     ctx.font = "30px Arial";
     ctx.fillStyle = "#000";
-    ctx.fillText("Game Over", canvas.width / 2 - 100, canvas.height / 2 - 50);
+    ctx.fillText("Game Over", canvas.width / 2 - 100, canvas.height / 2 - 70);
     ctx.fillText(
-      "Score: " + game.score,
-      canvas.width / 2 - 70,
-      canvas.height / 2
-    );
-  }
+    "Score: " + game.score,
+    canvas.width / 2 - 100,
+    canvas.height / 2 - 30
+     );
 
-  function addLink() {
-    let scoreLinkSpan = document.getElementById("score");
-    scoreLinkSpan.innerHTML = `Your score: ${game.score}. <br> <a href="addScore/add.html">Click to add score to the Database</a>`;
-    console.log(game.score);
-    localStorage.setItem("score", game.score);
-  }
+     ctx.fillStyle = "#4CAF50";
+    ctx.fillRect(canvas.width / 2 - 100, canvas.height / 2, 200, 40);
+     ctx.font = "20px Arial";
+     ctx.fillStyle = "#fff";
+     ctx.fillText("Play Again", canvas.width / 2 - 50, canvas.height / 2 + 25);
+
+     ctx.fillStyle = "#10D3E8";
+     ctx.fillRect(canvas.width / 2 - 100, canvas.height / 2 + 45, 200, 40);
+     ctx.font = "20px Arial";
+     ctx.fillStyle = "#fff";
+     ctx.fillText("Save Score", canvas.width / 2 - 50, canvas.height / 2 + 72);
+
+     // Dodaj event listener dla przycisku "Save Score"
+     canvas.addEventListener("click", handleCanvasClick);
+ }
+
+ function handleCanvasClick(event) {
+     const x = event.clientX - canvas.getBoundingClientRect().left;
+     const y = event.clientY - canvas.getBoundingClientRect().top;
+
+     if (
+  x > canvas.width / 2 - 100 &&
+  x < canvas.width / 2 + 100 &&
+  y > canvas.height / 2 &&
+  y < canvas.height / 2 + 40
+     ) {
+  playAgain();
+     } else if (
+  x > canvas.width / 2 - 100 &&
+  x < canvas.width / 2 + 100 &&
+  y > canvas.height / 2 + 45 &&
+  y < canvas.height / 2 + 85
+     ) {
+  goToSaveScorePage();
+     }
+ }
+
+ function goToSaveScorePage() {
+     window.location.href = "addScore/add.html";
+ }
+
+ function playAgain() {
+     window.location.reload();
+ }
+
+ showEndScreen();
 });
